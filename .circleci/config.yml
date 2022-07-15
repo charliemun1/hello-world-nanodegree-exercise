@@ -103,8 +103,13 @@ jobs:
       - run:
           name: Fetch and save the old pipeline ID (bucket name) responsible for the last release.
           command: |
-            export BACKEND_IP="192.2.3.4"
-            echo ${BACKEND_IP} > ~/textfile.txt
+            export RAW_BACKEND_GREETING="192.2.3.4-helloworld"
+            echo RAW_BACKEND_GREETING: "${RAW_BACKEND_GREETING}"
+
+            export BACKEND_GREETING=${RAW_BACKEND_GREETING#*-} 
+            echo BACKEND_GREETING: "${BACKEND_GREETING}"
+
+            echo ${BACKEND_GREETING} > ~/textfile.txt
             # aws cloudformation \
             # list-exports --query "Exports[?Name==\`PipelineID\`].Value" \
             # --no-paginate --output text > ~/textfile.txt
